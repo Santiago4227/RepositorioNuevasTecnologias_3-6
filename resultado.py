@@ -5,6 +5,7 @@ import os
 usuarios = []
 
 # Definir la función mostrar_menu()
+os.system('cls' if os.name == 'nt' else 'clear')
 def mostrar_menu():
     """
     Esta función muestra el menú principal en la consola.
@@ -40,6 +41,16 @@ def iniciar_sesion():
     print("Nombre de usuario o contraseña incorrectos.")
     return False
 
+# Definir la función generar_captcha()
+def generar_captcha():
+    """
+    Esta función genera un captcha simple y lo muestra al usuario.
+    """
+    os.system('cls' if os.name == 'nt' else 'clear')
+    captcha = random.randint(1000, 9999)  # Genera un número aleatorio de 4 dígitos como captcha
+    print(f"\n -> {captcha} <-")
+    return captcha
+
 opcion = 0
 usuario_autenticado = False
 cupo_total = 100000 # Definir el cupo total disponible
@@ -48,6 +59,7 @@ cupo_total = 100000 # Definir el cupo total disponible
 while opcion != 3:
     # Si el usuario no está autenticado, muestra el menú de inicio de sesión/registro
     if not usuario_autenticado:
+        
         print("\n ------- ¡BIENVENIDO! ------- ")
         print("\n ----- INICIO DE SESIÓN ----- ")
         print("|  1. Registrarse           |")
@@ -60,7 +72,16 @@ while opcion != 3:
         if seleccion == 1:
             registrar_usuario()
         elif seleccion == 2:
-            usuario_autenticado = iniciar_sesion()
+            # Genera un captcha y muestra al usuario
+            captcha_generado = generar_captcha()
+            captcha_ingresado = int(input("Ingresa los numero en pantalla: "+"\n"))
+
+            if captcha_ingresado == captcha_generado:
+                usuario_autenticado = iniciar_sesion()
+            else:
+                print("numeros incorrectos. Inténtalo nuevamente.")
+
+                os.system('cls' if os.name == 'nt' else 'clear')   
         elif seleccion == 3:
             print("Hasta luego...| Cerrando programa...")
             break
@@ -104,7 +125,7 @@ while opcion != 3:
                 print(f"\n Detalle de pagos de {nombre}")
                 i = 1
 
-                while deuda > 1 and i <= cuotas:
+                while deuda > 0 and i <= cuotas:
                     if deuda - separacion < 0:
                         cuota_actual = deuda
                         total_pagos += cuota_actual
@@ -117,8 +138,7 @@ while opcion != 3:
                     print(f"\n Cuota {i}: ${cuota_actual:.2f} - Deuda restante: ${deuda:.2f} - Total de pagos: ${total_pagos:.2f} \n")
 
                     i += 1 
-              
-                else:
-                  print("\n No se puede hacer la compra")
+
         elif opcion == 3:
+            os.system('cls' if os.name == 'nt' else 'clear')        
             print("Hasta luego.... ;D")
